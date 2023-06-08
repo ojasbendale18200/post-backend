@@ -62,4 +62,16 @@ userRouter.get("/",async(req,res) => {
 
 })
 
+// Delete User
+
+userRouter.delete("/:id",async(req,res) => {
+  const {id} = req.params
+  try {
+    const user = await UserModel.findByIdAndDelete({_id:id})
+    res.status(200).send({ message: "User Deleted" });
+  } catch (error) {
+    res.status(400).send({ message: error });
+  }
+})
+
 module.exports = { userRouter };
