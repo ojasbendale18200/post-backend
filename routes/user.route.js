@@ -53,4 +53,15 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
+// get Users
+userRouter.get("/",async(req,res) => {
+  try {
+    const users = await UserModel.find();
+    res.status(200).send(users)
+  } catch (error) {
+    res.status(400).send({ message: error });
+  }
+
+})
+
 module.exports = { userRouter };
