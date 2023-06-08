@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 // Register
 userRouter.post("/register", async (req, res) => {
-  const { name, email, gender, password, age, city, is_married } = req.body;
+  const { firstname, lastname, email, password } = req.body;
   try {
     const user = await UserModel.findOne({ email: email });
     if (user) {
@@ -14,13 +14,10 @@ userRouter.post("/register", async (req, res) => {
     } else {
       bcrypt.hash(password, 5, async (err, hash) => {
         const saveUser = new UserModel({
-          name,
+          firstname,
+          lastname,
           email,
-          gender,
           password: hash,
-          age,
-          city,
-          is_married,
         });
         await saveUser.save();
         res.status(201).send({ message: "User Registered" });
