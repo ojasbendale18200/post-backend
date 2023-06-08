@@ -37,16 +37,14 @@ userRouter.post("/login", async (req, res) => {
     if (user) {
       bcrypt.compare(password, user.password, (err, result) => {
         if (result) {
-          res.status(200).send({
-            message: "Login Successfull",
-            token: jwt.sign({ userID: user._id }, "masai"),
-          });
+          const { password, ...info } = user._doc;
+          res.status(200).send(info);
         } else {
-          res.status(400).send({ message: "wrong Credentials" });
+          res.status(400).send("Wrong password or username!");
         }
       });
     } else {
-      res.status(400).send({ message: "wrong credentials" });
+      res.status(400).send("User Not Found!");
     }
   } catch (error) {
     res.status(400).send({ message: error });
